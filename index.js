@@ -1,61 +1,38 @@
 const validateLineup = (lineup) => {
-
-  // if salary > 45.000 - FALSE
-  //return calculateSalary(lineup) // Function working!
-
-  // if calculateTeamPlayers > 2 -- FALSE
-  //return calculateNumberPlayers(lineup.map((lineup) => lineup.teamId)) <= 2
-
-  // if calculateGamePlayers > 3 -- FALSE
-  //return calculateNumberPlayers(lineup.map((lineup) => lineup.gameId)) <= 3
-
-  // MAP FOR POSITIONS
   const gamePositions = lineup.map((lineup) => lineup.position)
 
-  console.log(gamePositions)
+  return calculateSalary <= 45.000 &&
+    calculateNumberPlayers(lineup.map((lineup) => lineup.teamId)) <= 2 &&
+    calculateNumberPlayers(lineup.map((lineup) => lineup.gameId)) <= 3 &&
+    getOccurrence(gamePositions, 'OF') === 3 &&
+    getOccurrence(gamePositions, 'P') === 1 &&
+    getOccurrence(gamePositions, 'C') === 1 &&
+    getOccurrence(gamePositions, '1B') === 1 &&
+    getOccurrence(gamePositions, '2B') === 1 &&
+    getOccurrence(gamePositions, '3B') === 1 &&
+    getOccurrence(gamePositions, 'SS') === 1
 
-  const totalOF = getOccurrence(gamePositions, 'OF') // need 3
-  console.log(totalOF === 3)
 
-  const totalP = getOccurrence(gamePositions, 'P') //need 1
-  console.log(totalP === 1)
 
-  const totalC = getOccurrence(gamePositions, 'C') //need 1
-  console.log(totalC === 1)
-
-  const total1B = getOccurrence(gamePositions, '1B') //need 1
-  console.log(total1B === 1)
-
-  const total2B = getOccurrence(gamePositions, '2B') //need 1
-  console.log(total2B === 1)
-
-  const total3B = getOccurrence(gamePositions, '3B') //need 1
-  console.log(total3B === 1)
-
-  const totalSS = getOccurrence(gamePositions, 'SS') //need 1
-  console.log(totalSS === 1)
-
-  // Need one of each of these
-  return checkIndividualPositions(gamePositions)
+  // Need one of each of these -- FUNCTION WOULD BE CLEANER THAN CHECKING EACH INDIVIDUALLT
+  // return checkIndividualPositions(gamePositions)
 }
 
 // This would be cleaner than seperate variables, but doesnt work....!!!!
+/*
 const checkIndividualPositions = (gamePositions) => {
   const individualPositions = ['P', 'C', '1B', '2B', '3B', 'SS']
 
   for (let i = 0; i < individualPositions.length; i++) {
-    console.log(individualPositions[i])
-    console.log(getOccurrence(gamePositions, individualPositions[i]))
-    console.log(getOccurrence(gamePositions, individualPositions[i]) === 1)
-
     return getOccurrence(gamePositions, individualPositions[i]) === 1
     // This only returns the first item...
   }
 }
+*/
 
 const calculateSalary = (lineup) => {
   return lineup.map((lineup) => lineup.salary)
-    .reduce((total, salary) => total + salary, 0) < 45000
+    .reduce((total, salary) => total + salary, 0)
 }
 
 const calculateNumberPlayers = (players) => {
