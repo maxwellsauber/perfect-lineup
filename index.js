@@ -1,7 +1,7 @@
 const validateLineup = (lineup) => {
   const gamePositions = lineup.map((lineup) => lineup.position)
 
-  return calculateSalary <= 45.000 &&
+  return calculateSalary <= 45000 &&
     calculateNumberPlayers(lineup.map((lineup) => lineup.teamId)) <= 2 &&
     calculateNumberPlayers(lineup.map((lineup) => lineup.gameId)) <= 3 &&
     getOccurrence(gamePositions, 'OF') === 3 &&
@@ -13,22 +13,9 @@ const validateLineup = (lineup) => {
     getOccurrence(gamePositions, 'SS') === 1
 
 
-
-  // Need one of each of these -- FUNCTION WOULD BE CLEANER THAN CHECKING EACH INDIVIDUALLT
-  // return checkIndividualPositions(gamePositions)
+  // FUNCTION WOULD BE CLEANER THAN CHECKING EACH INDIVIDUALLT
+  // return checkIndividualPositions(gamePositions), couldnt figure that out
 }
-
-// This would be cleaner than seperate variables, but doesnt work....!!!!
-/*
-const checkIndividualPositions = (gamePositions) => {
-  const individualPositions = ['P', 'C', '1B', '2B', '3B', 'SS']
-
-  for (let i = 0; i < individualPositions.length; i++) {
-    return getOccurrence(gamePositions, individualPositions[i]) === 1
-    // This only returns the first item...
-  }
-}
-*/
 
 const calculateSalary = (lineup) => {
   return lineup.map((lineup) => lineup.salary)
