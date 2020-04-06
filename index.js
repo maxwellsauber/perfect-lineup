@@ -1,24 +1,18 @@
 const validateLineup = (lineup) => {
-  const gamePositions = lineup.map((lineup) => lineup.position)
+  const positions = lineup.map((lineup) => lineup.position)
+  const singlePositions = ['P', 'C', '1B', '2B', '3B', 'SS']
 
   return calculateSalary(lineup) <= 45000 &&
-    determineCorrectNumberPlayers(lineup.map((lineup) => lineup.teamId), 2) &&
-    determineCorrectNumberPlayers(lineup.map((lineup) => lineup.gameId), 3) &&
-    getOccurrence(gamePositions, 'OF') === 3 &&
-    getOccurrence(gamePositions, 'P') === 1 &&
-    getOccurrence(gamePositions, 'C') === 1 &&
-    getOccurrence(gamePositions, '1B') === 1 &&
-    getOccurrence(gamePositions, '2B') === 1 &&
-    getOccurrence(gamePositions, '3B') === 1 &&
-    getOccurrence(gamePositions, 'SS') === 1
-  // Calling getOccurrence a lot... cleaner way?
+    evalTotalPlayers(lineup.map((lineup) => lineup.teamId), 2) &&
+    evalTotalPlayers(lineup.map((lineup) => lineup.gameId), 3) &&
+    evalSinglePositions(positions, singlePositions) &&
+    getOccurrence(positions, 'OF') === 3
 }
 
-const calculateSalary = (lineup) => {
-  return lineup.map((lineup) => lineup.salary).reduce((total, salary) => total + salary, 0)
-}
+const calculateSalary = (lineup) => lineup.map((lineup) => lineup.salary)
+  .reduce((total, salary) => total + salary, 0)
 
-const determineCorrectNumberPlayers = (players, max) => {
+const evalTotalPlayers = (players, max) => {
   for (let i = 0; i < players.length; i++) {
     if (getOccurrence(players, players[i]) > max) {
       return false
@@ -28,8 +22,16 @@ const determineCorrectNumberPlayers = (players, max) => {
   return true
 }
 
-const getOccurrence = (array, value) => {
-  return array.filter((v) => (v === value)).length
+const evalSinglePositions = (positions, requiredPositions) => {
+  for (let i = 0; i < requiredPositions.length; i++) {
+    if (getOccurrence(positions, requiredPositions[i]) !== 1) {
+      return false
+    }
+  }
+
+  return true
 }
+
+const getOccurrence = (arr, vals) => arr.filter((v) => (v === vals)).length
 
 module.exports = validateLineup
