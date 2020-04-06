@@ -1,18 +1,18 @@
 const validateLineup = (lineup) => {
   const positions = lineup.map((lineup) => lineup.position)
   const singlePositions = ['P', 'C', '1B', '2B', '3B', 'SS']
+  const multiPositions = ['OF']
 
   return calculateSalary(lineup) <= 45000 &&
-    evalTotalPlayers(lineup.map((lineup) => lineup.teamId), 2) &&
-    evalTotalPlayers(lineup.map((lineup) => lineup.gameId), 3) &&
-    evalSinglePositions(positions, singlePositions) &&
-    getOccurrence(positions, 'OF') === 3
+    evalPlayers(lineup.map((lineup) => lineup.teamId), 2) &&
+    evalPlayers(lineup.map((lineup) => lineup.gameId), 3) &&
+    evalPositions(positions, singlePositions, 1) &&
+    evalPositions(positions, multiPositions, 3)
 }
 
-const calculateSalary = (lineup) => lineup.map((lineup) => lineup.salary)
-  .reduce((total, salary) => total + salary, 0)
+const calculateSalary = (lineup) => lineup.map((lineup) => lineup.salary).reduce((total, salary) => total + salary, 0)
 
-const evalTotalPlayers = (players, max) => {
+const evalPlayers = (players, max) => {
   for (let i = 0; i < players.length; i++) {
     if (getOccurrence(players, players[i]) > max) {
       return false
@@ -22,9 +22,9 @@ const evalTotalPlayers = (players, max) => {
   return true
 }
 
-const evalSinglePositions = (positions, requiredPositions) => {
+const evalPositions = (positions, requiredPositions, max) => {
   for (let i = 0; i < requiredPositions.length; i++) {
-    if (getOccurrence(positions, requiredPositions[i]) !== 1) {
+    if (getOccurrence(positions, requiredPositions[i]) !== max) {
       return false
     }
   }
@@ -32,6 +32,6 @@ const evalSinglePositions = (positions, requiredPositions) => {
   return true
 }
 
-const getOccurrence = (arr, vals) => arr.filter((v) => (v === vals)).length
+const getOccurrence = (arr, vals) => arr.filter((val) => (val === vals)).length
 
 module.exports = validateLineup
