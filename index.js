@@ -13,10 +13,6 @@ const validateLineup = (lineup) => {
 const calculateSalary = (lineup) => lineup.map((lineup) => lineup.salary).reduce((total, salary) => total + salary, 0)
 
 const evalPlayers = (players, max) => {
-  // players.forEach()
-
-  //players.forEach(getOccurrence(players, players[i]) > max return false)
-
   for (let i = 0; i < players.length; i++) {
     if (getOccurrence(players, players[i]) > max) return false
   }
